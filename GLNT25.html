@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gặp lại năm tui 25 | Invitation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Space+Grotesk:wght@300;500;700&https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Be+Vietnam+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mint: '#B5FFD9',
+                        pinky: '#FFB5E8',
+                        sky: '#B5EAD7',
+                        banana: '#FFF9B5',
+                        coral: '#FF9B9B',
+                        dark: '#121212'
+                    },
+                    fontFamily: {
+                        display: ['Be Vietnam Pro', 'sans-serif'],
+                        body: ['Space Grotesk', 'sans-serif'],
+                        hand: ['Caveat', 'cursive']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-20px) rotate(2deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+        }
+
+        .neo-brutalism-card {
+            background: white;
+            border: 3px solid black;
+            box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
+            color: black;
+        }
+
+        .sticker {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .sticker:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .scrapbook-bg {
+            background-image: 
+                radial-gradient(#ffffff11 1px, transparent 1px),
+                radial-gradient(#ffffff11 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+
+        .grain {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .handwritten {
+            font-family: 'Caveat', cursive;
+            transform: rotate(-2deg);
+        }
+
+        .window-header {
+            background: #e5e5e5;
+            border-bottom: 2px solid #000;
+            padding: 4px 8px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot { height: 12px; width: 12px; border-radius: 50%; border: 1.5px solid black; }
+        .dot-red { background: #FF5F56; }
+        .dot-yellow { background: #FFBD2E; }
+        .dot-green { background: #27C93F; }
+
+        .asymmetrical-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .asymmetrical-grid {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body class="scrapbook-bg font-body antialiased">
+    <div class="grain"></div>
+
+<!-- BACKGROUND MUSIC -->
+<audio id="bg-music" loop muted preload="auto">
+    <source src="https://drive.google.com/uc?export=download&id=14eUfzuUMYZmHdblk8WPKdz1mYCPBrPvw" type="audio/mpeg">
+</audio>
+
+<!-- OPEN INVITATION OVERLAY -->
+<div id="invite-overlay" class="fixed inset-0 z-[9999] flex items-center justify-center bg-dark transition-opacity duration-700">
+
+  <div class="text-center relative">
+    <div class="sticker bg-mint text-dark px-10 py-8 rounded-3xl border-4 border-white shadow-[0_0_40px_rgba(181,255,217,0.5)] animate-float cursor-pointer"
+         onclick="startInvitation()">
+
+      <div class="font-display font-black text-4xl md:text-6xl uppercase mb-3">
+        Gặp lại năm tui 25
+      </div>
+
+      <div class="font-body text-lg md:text-xl opacity-80">
+        Đã bao lâu rồi tụi mình chưa gặp mặt?
+      </div>
+
+      <div class="mt-4 text-sm tracking-widest opacity-60">
+        🎧 SẴN SÀNG CHƯA?
+      </div>
+    </div>
+
+    <div class="absolute -top-16 -left-16 w-24 h-24 rounded-full bg-sky opacity-40 animate-pulse-slow"></div>
+    <div class="absolute -bottom-16 -right-16 w-32 h-32 rounded-full bg-pinky opacity-30 animate-pulse-slow"></div>
+  </div>
+</div>
+
+<main class="w-full max-w-[1400px] mx-auto px-4 py-12 relative">
+        
+        <!-- Background Decorations -->
+        <div class="absolute top-10 right-10 w-64 h-64 bg-mint/20 rounded-full blur-[100px] -z-10 animate-pulse-slow"></div>
+        <div class="absolute bottom-20 left-10 w-80 h-80 bg-pinky/20 rounded-full blur-[120px] -z-10 animate-pulse-slow"></div>
+
+        <!-- HEADER SECTION -->
+        <header class="mb-16 md:mb-24 relative">
+            <div class="relative z-10">
+                <div class="inline-block bg-banana text-dark font-display font-bold px-4 py-1 mb-6 rotate-[-1deg] neo-brutalism-card text-sm uppercase tracking-widest animate-bounce">
+                    Special Invitation
+                </div>
+                
+                <h1 class="font-display font-black text-6xl md:text-9xl leading-none tracking-tighter mb-4 text-white uppercase italic">
+                    Gặp lại<br>
+                    <span class="text-transparent" style="-webkit-text-stroke: 1.5px white;">năm tui</span> 25
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-sky font-medium max-w-xl">
+                    Và nhiều năm sau đó nữa nhen, 25 và +∞
+                </p>
+            </div>
+
+            <!-- Header UI Window - Float Desktop -->
+            <div class="md:absolute top-0 right-0 mt-8 md:mt-0 neo-brutalism-card w-full md:w-80 overflow-hidden animate-float">
+                <div class="window-header">
+                    <div class="dot dot-red"></div>
+                    <div class="dot dot-yellow"></div>
+                    <div class="dot dot-green"></div>
+                    <span class="ml-auto font-display font-bold text-[10px] uppercase">demngayraquan_ntn.exe</span>
+                </div>
+                <div class="p-6 bg-white">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-dark text-white p-3 rounded-xl font-display font-black text-center">
+                            <span class="block text-xs">MAR</span>
+                            <span class="text-3xl">01</span>
+                        </div>
+                        <div>
+                            <p class="font-bold text-lg leading-tight uppercase">Chủ Nhật</p>
+                            <p class="text-gray-500 text-sm">2026 • 10:30 AM</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-dashed border-gray-300 pt-4">
+                        <p class="text-xs uppercase font-bold text-gray-400 mb-1">Coordinates</p>
+                        <p class="font-bold flex items-center gap-2">
+                            <svg class="w-4 h-4 text-coral" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                            TBU / Location Reveal Soon
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="asymmetrical-grid">
+            
+            <!-- THE STORY / OVERVIEW -->
+<div class="col-span-12 md:col-span-7 relative">
+                <div class="glass-panel p-8 md:p-12 mb-8 relative overflow-hidden">
+                    <!-- Abstract Shape Behind -->
+                    <div class="absolute -top-10 -right-10 w-40 h-40 bg-coral/20 rounded-full blur-2xl"> KHÔNG CHỈ LÀ MỘT BUỔI GẶP MẶT </div>
+                    
+                    <h2 class="font-display font-black text-4xl mb-6 uppercase text-mint"></h2>
+                    <div class="space-y-6 text-lg md:text-xl leading-relaxed text-gray-200">
+                        <p>
+                            Thương mời bạn iu đến buổi gặp mặt nho nhỏ cùng Chọng Nguyễn sau hai năm nghĩa vụ. Hai năm, hai mươi bốn tháng thật sự là một chặng hành trình dài, cho tui nhiều bài học và cả mất mát,... vài lần lạc lối nhưng may mắn là chưa bao giờ đánh mất mình. Vẫn là tui, ở đây, để <span class="bg-sky text-dark px-2 font-bold rounded">tâm sự và chia sẻ</span> cùng mọi người.
+                        </p>
+                        <p>
+                            Like a pheonix, I'm rising from the ashes, mending my gashes:
+                        </p>
+                    </div>
+
+                    <!-- Transitions Stickers -->
+                    <div class="mt-10 flex flex-wrap gap-4">
+                        <div class="sticker bg-coral text-white p-6 rounded-2xl transform -rotate-2 border-2 border-black flex flex-col justify-center">
+                            <span class="text-xs uppercase font-bold opacity-75">Chào tạm biệt</span>
+                            <span class="text-2xl font-black font-display tracking-tight uppercase">Hạ sĩ<br>Trọng Nguyễn</span>
+                        </div>
+                        <div class="flex items-center justify-center font-display font-black text-3xl text-white px-2">
+                            &rarr;
+                        </div>
+                        <div class="sticker bg-mint text-dark p-6 rounded-2xl transform rotate-2 border-2 border-black flex flex-col justify-center">
+                            <span class="text-xs uppercase font-bold opacity-75">Chào mừng trở lại</span>
+                            <span class="text-2xl font-black font-display tracking-tight uppercase">Thầy<br>Nguyễn</span>
+                        </div>
+                    </div>
+                </div>
+</div>
+                                <!-- DETAILS / PROGRAM -->
+<div class="col-span-12 md:col-span-5 flex flex-col gap-6">
+                
+                <!-- Program Window -->
+                <div class="neo-brutalism-card bg-sky p-6 flex flex-col h-full">
+                    <h2 class="font-display font-black text-3xl mb-6 uppercase flex items-center gap-3">
+                        <span class="p-2 bg-dark rounded-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </span>
+                        Agenda
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex gap-4 items-start p-3 bg-white/50 rounded-xl border border-black/5">
+                            <span class="font-display font-black text-xl min-w-[70px]">10:30</span>
+                            <div>
+                                <h3 class="font-bold text-lg">Ăn trưa đồ ik</h3>
+                                <p class="text-sm opacity-80">Note: Tui ăn chay</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start p-3 bg-white/50 rounded-xl border border-black/5">
+                            <span class="font-display font-black text-xl min-w-[70px]">12:30</span>
+                            <div>
+                                <h3 class="font-bold text-lg">Uống nước tăng 2</h3>
+                                <p class="text-sm opacity-80">Celebrating the transition</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start p-3 bg-white/50 rounded-xl border border-black/5">
+                            <span class="font-display font-black text-xl min-w-[70px]">14:00</span>
+                            <div>
+                                <h3 class="font-bold text-lg">Gift & Toast</h3>
+                                <p class="text-sm opacity-80">Special guest: 1000 Ngày Nấu Nướng</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start p-3 bg-white/50 rounded-xl border border-black/5">
+                            <span class="font-display font-black text-xl min-w-[70px]">FT</span>
+                            <div>
+                                <h3 class="font-bold text-lg">Chúng ta gặp lại</h3>
+                                <p class="text-sm opacity-80">Reconnecting & stories</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-black/10">
+                        <h4 class="font-display font-bold uppercase text-xs mb-4">Dress Code</h4>
+                        <div class="bg-dark text-white p-4 rounded-xl flex items-center justify-between">
+                            <span class="font-bold tracking-widest">CASUAL</span>
+                            <div class="flex -space-x-2">
+                                <div class="w-6 h-6 rounded-full bg-mint border border-white"></div>
+                                <div class="w-6 h-6 rounded-full bg-coral border border-white"></div>
+                                <div class="w-6 h-6 rounded-full bg-banana border border-white"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+</div>
+            <!-- RSVP SECTION -->
+            <div class="col-span-12 mt-12 mb-16">
+                <div class="relative bg-white text-dark p-1 rounded-[40px] neo-brutalism-card overflow-hidden">
+                    <div class="bg-dark p-8 md:p-16 rounded-[36px] text-center relative overflow-hidden">
+                        <!-- BG Graphic -->
+                        <div class="absolute inset-0 opacity-10 pointer-events-none flex items-center justify-center">
+                            <span class="text-[200px] font-display font-black text-white transform -rotate-12">nhiều mặt 1 lời</span>
+                        </div>
+
+                        <div class="relative z-10 max-w-2xl mx-auto">
+                            <h2 class="font-display font-black text-5xl md:text-7xl mb-6 text-white uppercase italic">Rùi ý bà shao?</h2>
+                            <p class="text-xl text-sky mb-10">Dù sao đi nữa thì cũng mong mọi người biết rằng tui rất rất rất biết ơn vì đã luôn bên cạnh tui trong suốt hai năm qua.</p>
+                            
+                            <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+<button onclick="window.open('https://calendar.app.google/hkp7REL9eWLL1uDy6', '_blank')"
+    class="sticker w-full md:w-auto bg-mint text-dark font-disyplay font-black text-2xl py-5 px-12 rounded-full border-4 border-white shadow-[0_0_30px_rgba(181,255,217,0.3)] hover:bg-white transition-all">
+    LÊN ĐỒ
+</button>
+                                <button onclick="window.open('https://calendar.app.google/hkp7REL9eWLL1uDy6', '_blank')" class="sticker w-full md:w-auto bg-transparent text-white/50 font-body font-bold text-xl py-5 px-8 rounded-full border-2 border-white/20 hover:border-white hover:text-white transition-all">
+                                    Thui hẹn lần sau
+                                </button>
+                            </div>
+                            
+                            <div class="mt-12 flex flex-col items-center">
+                                <span class="bg-pinky text-dark px-4 py-1 rounded-full font-bold text-sm mb-4">Có gì cần liên hệ tui qua Instagram</span>
+                                <div class="flex gap-4">
+    <a href="#"
+       onclick="window.open('https://www.instagram.com/nguyenalison13/', '_blank')"
+       class="text-white hover:text-coral transition-colors underline underline-offset-4">
+       instagram.com/nguyenalison13
+    </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER DECO -->
+            <div class="col-span-12 flex flex-wrap justify-center items-center gap-12 opacity-30 py-12">
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center animate-spin-slow">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+                    </div>
+                    <span class="text-[10px] mt-2 tracking-widest font-bold uppercase">Digital Pass</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <span class="text-[10px] mt-2 tracking-widest font-bold uppercase">Dui dẻ 100%</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                    </div>
+                    <span class="text-[10px] mt-2 tracking-widest font-bold uppercase">Nói không với nỗi pùn</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Float Label Decorative -->
+        <div class="fixed top-1/2 -right-12 transform -rotate-90 origin-center hidden lg:block">
+            <span class="text-xs font-display font-black text-white/20 tracking-[1rem] uppercase">GẶP LẠI NĂM TUI 25 • GẶP LẠI NĂM TUI 25</span>
+        </div>
+    </main>
+
+    <script>
+        // Simple scroll reveal for cards
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.glass-panel, .neo-brutalism-card').forEach(el => {
+                el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+                observer.observe(el);
+            });
+        });
+    </script>
+<script>
+function startInvitation() {
+    const overlay = document.getElementById('invite-overlay');
+    const music = document.getElementById('bg-music');
+
+    // Fade out overlay
+    overlay.style.opacity = '0';
+    setTimeout(() => {
+        overlay.style.display = 'none';
+    }, 700);
+
+    // Play music with sound (browser compliant)
+    if (music) {
+        music.muted = false;
+        music.play().catch(() => {
+    document.body.addEventListener('touchstart', () => {
+        music.play();
+    }, { once: true });
+});
+    }
+}
+</script>
+
+</body>
+</html>

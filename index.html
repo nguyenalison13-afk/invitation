@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Gặp lại năm tui 25 | Invitation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -128,8 +128,10 @@
 </audio>
 
 <!-- OPEN INVITATION OVERLAY -->
-<div id="invite-overlay" class="fixed inset-0 z-[9999] flex items-center justify-center bg-dark transition-opacity duration-700">
-
+<div id="invite-overlay"
+     class="fixed top-0 left-0 w-screen h-screen z-[9999] flex items-center justify-center bg-dark transition-opacity duration-700"
+     style="touch-action: manipulation;">
+<div class="w-full flex justify-center px-6">
 <button
   type="button"
   class="sticker bg-mint text-dark px-10 py-8 rounded-3xl border-4 border-white shadow-[0_0_40px_rgba(181,255,217,0.5)] animate-float cursor-pointer"
